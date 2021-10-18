@@ -18,3 +18,6 @@ The RMS is calculated for each real and fake divergence field pair (RMSfake and 
 # Set up Paths
 Before running any code, please change the 'graph_path' and 'model_path' to where you would like graphs and models to be saved. 'dataset_path' should be changed to where the training dataset 'high_E_contrast_composite_train.npz' is saved. These paths are defined right after the python packages are imported. 
 
+# Dataset
+The test and train dataset is available for download through the following link:
+https://buckeyemailosu-my.sharepoint.com/:f:/g/personal/lenau_1_buckeyemail_osu_edu/EuVrFbk_eglNj8vIRJF2XwUB57Bc1G5r-FoqqnfJg7HgrQ?e=3zWfsW
