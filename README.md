@@ -15,6 +15,13 @@ Adding the divergence of the stress fields to the original Pix2Pix loss (which i
 
 The RMS is calculated for each real and fake divergence field pair (RMSfake and RMSreal respectively), which is the plugged into the equation ln(RMSfake/RMSreal). This is done twice, once for the divergence fields coming from the 11&12 stress directions, and again for the 12&22 stress directions. The 2 outputs are then added to the original Pix2Pix loss. To run this code, see the file 'ln(rmsf_rmst)_regualrization.py' under the 'G_regularization' folder.
 
+# Required Python Packages
+Tensorflow 2.7.0
+Keras 2.6.0
+matplotlib 3.5.0
+numpy 1.21.2
+
+
 # Set up Paths
 Before running any code, please change the 'graph_path' and 'model_path' to where you would like graphs and models to be saved. 'dataset_path' should be changed to where the training dataset 'high_E_contrast_composite_train.npz' is saved. These paths are defined right after the python packages are imported. 
 
