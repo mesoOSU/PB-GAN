@@ -10,7 +10,7 @@ from numpy import load
 from numpy import zeros
 from numpy import ones
 from numpy.random import randint
-from keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 from keras.initializers import RandomNormal
 from keras.models import Model
 from keras.models import Input
