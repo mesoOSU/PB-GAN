@@ -1,29 +1,57 @@
-# PB-GAN
-Physics-based regularization using generative adversarial networks
+# PBR-GAN
+Physics-based regularization (PBR) using generative adversarial networks
 
-This code is adapted from Jason Brownlee's blog post on using Pix2Pix GANs to translate satellite images to google maps images: https://machinelearningmastery.com/how-to-develop-a-pix2pix-gan-for-image-to-image-translation/
+Code is adapted from Jason Brownlee's blog post on using Pix2Pix GANs to translate satellite images to google maps images: https://machinelearningmastery.com/how-to-develop-a-pix2pix-gan-for-image-to-image-translation/
 
-This code translates a composite (black and white) image to its corresponding stress fields. These stress fields show the stress of the composite image in the 11, 12, and 22 directions. Various regularization techniques are used to incorporate physics to enforce stress equilibrium. The techniques are split up into two categries: regualrization on the discriminator (D), and regularization on the generator (G). The file 'pix2pix_no_physics_included.py' demonstrates how the Pix2Pix GAN translates the stress fiels without physics based regualrization techniques.
+This code translates a high elastic contrast composite image to its corresponding (normalized) 2D stress fields in the 11, 12, and 22 directions. Various physics-based regularization terms enforcing stress equilibrium are incorporated into either the generator or discriminator loss. This code was was used to study the affect of different learning rates and loss weights on different loss fucnitons, so you will notice that each implementation has different learning rate and loss weight values. The model variation across different training sessions for the same implementation was also studied using this code.
 
-# Regualrization on the Discriminator
-A sigmoid function is used to calculate the probabilty of the root-mean-square (RMS) score coming from a real or fake divergence field. The divergence fields are calculated from the 11&12 and 12&22 stress fields, which results in two divergence fields for each set of composite-stress fields pairs. The output of the sigmoid probability is then multiplied to the discriminator output. To run this code go to the 'sigmoid_regularization.py' file under the 'D_regularization' folder.
+## Baseline Method
+The baseline method usign the original Pix2Pix objective, with an L2-regularization instead of L1:
+ ```math
+ V_{Pix2Pix}=\underbrace{min}_{G}\underbrace{max}_{D} \mathbb{E}_{X\sim P_{data}\ } [logD(X,Y)] + \mathbb{E}_{Z\sim P_{Z}\ } [log(1-D(G(Z,Y),Y))]  + \beta L2(G(Z,Y))
+ ```
+## Physcis Based Regularization Methods
+All regularization methods are enforcing stress equilibrium defined by the divergence of stress, $\nabla\cdot\sigma=0$. For 2D stress fields, there will be two divergence fields in total, defined as
+```math
+K_1(\sigma)=\frac{\partial\sigma_{11}}{\partial x_1}+\frac{\partial\sigma_{12}}{\partial x_2},\ \ K_2(\sigma)=\frac{\partial\sigma_{12}}{\partial x_1}+\frac{\partial\sigma_{22}}{\partial x_2}
+```
+### Add Divergence
+Add the divergence of generated stress fields like a regularization term to the generator loss. Model is penalized if it deviates from zero divergence.
+```math
+ V_{Add Div}= V_{Pix2Pix} + \gamma \left(|K_{1}(G(Z,Y))| + |K_{2}(G(Z,Y))|\right)
+```
+### $Tan^{-1}$
+The divergence from the dataset is not exactly zero divergence, but converges to a value very close to zero. The idea here is to get the model to converge to a similar stress equilibrium solution similar to that of the training dataset. The root-mean-square values (RMS) of the divergence field is evaluated for both trarget and generated stress fields and comapared through the difference with a $tan^{-1}$ funciton applied to help with gradient updates.
+```math
+V_{tan^{-1}}= V_{Pix2Pix} + \gamma \left(|tan^{-1}(RMS(K_{1}(G(Z,Y))))-RMS(K_{1}(X))| + |tan^{-1}(RMS(K_{2}(G(Z,Y))))-RMS(K_{2}(X))|\right)
+```
+### Sigmoid
+Similar to the $tan^{-1}$ method, this method evaluates whether a divergence field was calculated from a set of target or generated stress fields, which is then multiplied to the original discriminator loss. The divergence probability is evaluated through a sigmoid funciton
 
-The RMS is also calculated on a patch basis, where the RMS score for a given patch of a divergence field is calculated and the sigmoid function calculates the probability of the RMS score for that patch being real or fake. This gives an array of probabilities that is multiplied by the Discriminator output. See the 'sigmoid_patch_divergences.py' file under the 'D_regularization' folder to run this code.
-
-# Regularization on the Generator
-Adding the divergence of the stress fields to the original Pix2Pix loss (which is binary cross entropy loss and L1 loss) is in the file 'Adding_divergence_2_GAN_loss.py' under the folder 'G_regularization". 
-
-The RMS is calculated for each real and fake divergence field pair (RMSfake and RMSreal respectively), which is the plugged into the equation ln(RMSfake/RMSreal). This is done twice, once for the divergence fields coming from the 11&12 stress directions, and again for the 12&22 stress directions. The 2 outputs are then added to the original Pix2Pix loss. To run this code, see the file 'ln(rmsf_rmst)_regualrization.py' under the 'G_regularization' folder.
-
+```math
+M_{i} = log_{10}(RMS({K}_{i}(\sigma)))
+```
+```math
+S_{i} = -2 \left(\frac{1}{1+e^{-M_{i}}}-0.5\right)
+```
+With $M_{i}# being the magnitude of the RMS for a divergence field (with i=1,2, indicating which divergence field) and $S_{i}$ indicating the probability of a divergence field coming from target or generated stress fields. The discriminator loss becomes
+```math
+D_{sig} = D(\sigma,Y)S_{1}S_{2}
+```
+and the final objective becomes
+```math
+V_{Sigmoid}=\underbrace{min}_{G}\underbrace{max}_{D} \mathbb{E}_{X\sim P_{data}\ } [logD_{sig}(X,Y)] 
+    +\mathbb{E}_{Z\sim P_{Z}\ } [log(1-D_{sig}(G(Z,Y),Y))] 
+    + \beta L2(G(Z,Y))
+```
+  
 # Required Python Packages
-Tensorflow=2.7.0,
-Keras=2.6.0,
-matplotlib=3.5.0,
-numpy=1.21.2
 
-# Set up Paths
-Before running any code, please change the 'graph_path' and 'model_path' to where you would like graphs and models to be saved. 'dataset_path' should be changed to where the training dataset 'high_E_contrast_composite_train.npz' is saved. These paths are defined right after the python packages are imported. 
+Tensorflow=2.6.2  
+Keras=2.6.0  
+matplotlib=3.6.2  
+numpy=1.19.5  
 
-# Dataset
-The test and train dataset is available for download through the following link:
+# Datasets and models
+The train, test, and valiation are avaialble in the link below. Dataset was generated using CP-FFT. The best performing models from to different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, and the best median and worst performing models for each method are avaible in the same link.  
 https://buckeyemailosu-my.sharepoint.com/:f:/g/personal/lenau_1_buckeyemail_osu_edu/EuVrFbk_eglNj8vIRJF2XwUB57Bc1G5r-FoqqnfJg7HgrQ?e=3zWfsW
