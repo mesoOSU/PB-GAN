@@ -31,19 +31,17 @@ from tensorflow.keras.models import load_model
 import tensorflow as tf
 import time
 import matplotlib.pyplot as plt
-# load, split and scale the maps dataset ready for training
 from numpy import asarray
 from numpy import savez_compressed
 from numpy import mean, sqrt, square
 import numpy as np
 from math import pi
-graph_path = 'graphs//'           # where you want loss and RMS(Divergence) information/graphs to be saved
-dataset_path = r'/fs/ess/PAS2405/a1lenau/full_and_half_datasets/large_train_high_E_contrast.npz'         # path where dataset is
-model_path = 'models//'           # where you want models to be saved
+graph_path = 'graphs//'           
+dataset_path = r'/fs/ess/PAS2405/a1lenau/full_and_half_datasets/large_train_high_E_contrast.npz'  
+model_path = 'models//'         
 os.makedirs(graph_path, exist_ok=True)
 os.makedirs(model_path, exist_ok=True)
 save_npz_name = 'Sigmoid_DLR=0.00003_GLR=0.0002_Dwt=1_MSE=700'
-
 test_dataset = r'/fs/ess/PAS2405/a1lenau/full_and_half_datasets/large_val_high_E_contrast.npz'
 
 #calculate divergence through tensor flow tensorflow
