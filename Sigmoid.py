@@ -5,7 +5,7 @@ https://machinelearningmastery.com/how-to-develop-a-pix2pix-gan-for-image-to-ima
 
 Ashley Lenau
 
-This is code for regularization on the generation by adding the divergence to the GAN loss
+This is code for regularization on the generation by incorporating probabilty of divergence coming from target/generated stress into discriminator objective
 """
 # from keras import backend as K
 from numpy import load
