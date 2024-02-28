@@ -47,7 +47,7 @@ test_dataset = r'/fs/ess/PAS2405/a1lenau/full_and_half_datasets/large_val_high_E
 
 #calculate divergence through tensor flow tensorflow
 def calc_divergence(input):
-    # CP-FFT calculates divegrence in FFT space, so do tht here as well 
+    # CP-FFT calculates divegrence in FFT space, so do that here as well 
     i = input
     print('input shape:', i.shape)
     S1 = i[:,:,:,0]
