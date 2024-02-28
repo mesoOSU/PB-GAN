@@ -31,7 +31,6 @@ from tensorflow.keras.models import load_model
 import tensorflow as tf
 import time
 import matplotlib.pyplot as plt
-# load, split and scale the maps dataset ready for training
 from numpy import asarray
 from numpy import savez_compressed
 from numpy import mean, sqrt, square
@@ -43,7 +42,6 @@ model_path = 'models//'
 os.makedirs(graph_path, exist_ok=True)
 os.makedirs(model_path, exist_ok=True)
 save_npz_name = 'tan1=2_DLR=0.0001_DWT=0.8_GLR=0.0003_MSE=300'
-
 test_dataset = r'/fs/ess/PAS2405/a1lenau/full_and_half_datasets/large_val_high_E_contrast.npz'
 
 #calculate divergence through tensor flow tensorflow
