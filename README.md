@@ -23,7 +23,11 @@ Add the divergence of generated stress fields like a regularization term to the 
 ### $Tan^{-1}$
 The divergence from the dataset is not exactly zero divergence but converges to a value very close to zero. The idea here is to get the model to converge to a similar stress equilibrium solution similar to that of the training dataset. The root-mean-square (RMS) of the divergence field is evaluated for both target and generated stress fields and compared through the difference with a $tan^{-1}$ function applied to help with gradient updates.
 ```math
-V_{tan^{-1}}= V_{Pix2Pix} + \gamma \left(|tan^{-1}(RMS(K_{1}(G(Z,Y))))-RMS(K_{1}(X))| + |tan^{-1}(RMS(K_{2}(G(Z,Y))))-RMS(K_{2}(X))|\right)
+\begin{aligned}
+V_{tan^{-1}} &= V_{Pix2Pix} + \
+&\gamma \left(|tan^{-1}(RMS(K_{1}(G(Z,Y))))-RMS(K_{1}(X))| +
+|tan^{-1}(RMS(K_{2}(G(Z,Y))))-RMS(K_{2}(X))|\right)
+\end{aligned}
 ```
 ### Sigmoid
 Similar to the $tan^{-1}$ method, this method evaluates whether a divergence field was calculated from a set of target or generated stress fields, which is then multiplied by the original discriminator loss. The divergence probability is evaluated through a sigmoid function
