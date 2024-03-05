@@ -57,5 +57,5 @@ matplotlib=3.6.2
 numpy=1.19.5  
 
 # Datasets and models
-The train, test, and valiation are avaialble in the link below. Dataset was generated using CP-FFT. The best performing models from to different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, and the best median and worst performing models for each method are avaible in the same link.  
+The train, test, and valiation are avaialble in the link below. Dataset was generated using CP-FFT. The best performing models from to different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, and the best, median, and worst performing models for each method are avaible in the same link.  
 https://buckeyemailosu-my.sharepoint.com/:f:/g/personal/lenau_1_buckeyemail_osu_edu/EuVrFbk_eglNj8vIRJF2XwUB57Bc1G5r-FoqqnfJg7HgrQ?e=3zWfsW
