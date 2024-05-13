@@ -38,7 +38,7 @@ M_{i} = log_{10}(RMS({K}_{i}(\sigma)))
 ```math
 S_{i} = -2 \left(\frac{1}{1+e^{-M_{i}}}-0.5\right)
 ```
-With $M_{i}# being the magnitude of the RMS for a divergence field (with i=1,2, indicating which divergence field) and $S_{i}$ indicating the probability of a divergence field coming from target or generated stress fields. The discriminator loss becomes
+With $M_{i}$ being the magnitude of the RMS for a divergence field (with i=1,2, indicating which divergence field) and $S_{i}$ indicating the probability of a divergence field coming from target or generated stress fields. The discriminator loss becomes
 ```math
 D_{sig} = D(\sigma,Y)S_{1}S_{2}
 ```
