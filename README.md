@@ -3,14 +3,14 @@ Physics-based regularization (PBR) using generative adversarial networks
 
 Code is adapted from Jason Brownlee's blog post on using Pix2Pix GANs to translate satellite images to Google Maps images: https://machinelearningmastery.com/how-to-develop-a-pix2pix-gan-for-image-to-image-translation/
 
-This code translates a high elastic contrast composite image to its corresponding (normalized) 2D stress fields in the 11, 12, and 22 directions. Various physics-based regularization terms enforcing stress equilibrium are incorporated into either the generator or discriminator loss. This code was used to study the effect of different learning rates and loss weights on different loss functions, so you will notice that each implementation has different learning rate and loss weight values. The model variation across different training sessions for the same implementation was also studied using this code.
+This code translates a high-elastic contrast composite image to its corresponding (normalized) 2D stress fields in the 11, 12, and 22 directions. Various physics-based regularization terms enforcing stress equilibrium are incorporated into either the generator or discriminator loss. This code was used to study the effect of different learning rates and loss weights on different loss functions, so you will notice that each implementation has different learning rate and loss weight values. The model variation across different training sessions for the same implementation was also studied using this code.
 
 ## Baseline Method
 The baseline method using the original Pix2Pix objective, with an L2-regularization instead of L1:
  ```math
  V_{Pix2Pix}=\underbrace{min}_{G}\underbrace{max}_{D} \mathbb{E}_{X\sim P_{data}\ } [logD(X,Y)] + \mathbb{E}_{Z\sim P_{Z}\ } [log(1-D(G(Z,Y),Y))]  + \beta L2(G(Z,Y))
  ```
-## Physics Based Regularization Methods
+## Physics-Based Regularization Methods
 All regularization methods are enforcing stress equilibrium defined by the divergence of stress, $\nabla\cdot\sigma=0$. For 2D stress fields, there will be two divergence fields in total, defined as
 ```math
 K_1(\sigma)=\frac{\partial\sigma_{11}}{\partial x_1}+\frac{\partial\sigma_{12}}{\partial x_2},\ \ K_2(\sigma)=\frac{\partial\sigma_{12}}{\partial x_1}+\frac{\partial\sigma_{22}}{\partial x_2}
@@ -56,6 +56,8 @@ Keras=2.6.0
 matplotlib=3.6.2  
 numpy=1.19.5  
 
+See the requirements.txt file for the minimum packages needed to recreate the Python environment, or the requirements_full_env.yml for an exhaustive list of packages used.
+
 # Datasets and models
-The train, test, and valiation are avaialble in the link below. Dataset was generated using EVP-FFT. Each train (~450 MB), validation (~90 MB), and test (~90 MB) are in a .npz file format. The best performing models from the different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, where the best, median, and worst performing models for each method are avaible in the same link.  
+The train, test, and validation are available in the link below. The datasets were generated using EVP-FFT. Each train (~450 MB), validation (~90 MB), and test (~90 MB) are in a .npz file format. The best performing models from the different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, where the best, median, and worst performing models for each method are avaible in the same link.  
 https://buckeyemailosu-my.sharepoint.com/:f:/g/personal/lenau_1_buckeyemail_osu_edu/EuVrFbk_eglNj8vIRJF2XwUB57Bc1G5r-FoqqnfJg7HgrQ?e=3zWfsW
