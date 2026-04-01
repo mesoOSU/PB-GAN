@@ -61,3 +61,8 @@ See the requirements.txt file for the minimum packages needed to recreate the Py
 # Datasets and models
 The train, test, and validation are available in the link below. The datasets were generated using EVP-FFT. Each train (~450 MB), validation (~90 MB), and test (~90 MB) are in a .npz file format. The best performing models from the different training sessions for each method are also available. A separate study with 30 different training sessions for each method was done, where the best, median, and worst performing models for each method are avaible in the same link.  
 https://buckeyemailosu-my.sharepoint.com/:f:/g/personal/lenau_1_buckeyemail_osu_edu/EuVrFbk_eglNj8vIRJF2XwUB57Bc1G5r-FoqqnfJg7HgrQ?e=3zWfsW
+
+# DOI Link/Citation
+Please use this DOI link to cite/download this code ( https://doi.org/10.5281/zenodo.19363143 ) or use the following citation: 
+Ashley Lenau & Stephen Niezgoda. (2026). mesoOSU/PB-GAN: PBGAN: Model Variation (V1.0.1). Zenodo. https://doi.org/10.5281/zenodo.19363143
+
